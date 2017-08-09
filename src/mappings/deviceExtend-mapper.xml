@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="DeviceExtendMapper">
+	<!--mybatis ehcache缓存配置 -->
+	<!-- 以下两个<cache>标签二选一,第一个可以输出日志,第二个不输出日志 <cache type="org.mybatis.caches.ehcache.LoggingEhcache" 
+		/> -->
+	<!-- <cache type="org.mybatis.caches.ehcache.EhcacheCache"/> -->
+	<!-- 以下与实体类的中字段一致 -->
+	<sql id="selectId">
+		id,
+		device_id,
+		(SELECT devicename FROM t_device WHERE
+		device_id=t_device_extend.device_id)  devicename,
+		(SELECT uuidKey FROM t_device WHERE
+		device_id=t_device_extend.device_id) uuidKey,
+		js_str
+	</sql>
+
+	<select id="findDevicePage" resultType="com.lanyuan.entity.DeviceExtendFormMap">
+		SELECT
+		<include refid="selectId" />
+		from t_device_extend
+		WHERE 1=1 
+		<if test="device_id != null and device_id != ''">
+		and device_id=#{device_id}
+		</if>
+		<if test="roleKey != null and roleKey != '' and roleKey != 'admin'">
+		<if test="uuids != null and uuids != ''">
+		and device_id in (select device_id from t_device where uuidKey in 
+		<foreach collection="uuids" index="index" item="item" open="(" separator="," close=")">
+			#{item,jdbcType=VARCHAR}      
+        </foreach>
+		)
+		</if>
+		</if>		
+	</select>
+	<select id="findDeviceStr" resultType="com.lanyuan.entity.DeviceExtendFormMap">
+		select <include refid="selectId" /> from t_device_extend where  
+		device_id=#{device_id}		
+	</select>
+</mapper>

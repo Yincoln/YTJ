@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ConfigMapper">
+	<!-- 以下与实体类的中字段一致 -->
+	<sql id="selectId">
+		id,
+		accountName,
+		module,
+		methods,
+		actionTime,
+		userIP,
+		description,
+		operTime
+	</sql>
+	<select id="find_feild" parameterType="com.lanyuan.entity.ConfigFormMap" resultType="com.lanyuan.entity.ConfigFormMap">
+		${dynamic_sql}
+	</select>
+	<select id="dynamic_sql" parameterType="com.lanyuan.entity.ConfigFormMap" resultType="com.lanyuan.entity.ConfigFormMap">
+		${dynamic_sql}
+	</select>
+</mapper>

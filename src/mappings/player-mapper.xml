@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="PlayerMapper">
+	<!--mybatis ehcache缓存配置 -->
+	<!-- 以下两个<cache>标签二选一,第一个可以输出日志,第二个不输出日志 <cache type="org.mybatis.caches.ehcache.LoggingEhcache" 
+		/> -->
+	<!-- <cache type="org.mybatis.caches.ehcache.EhcacheCache"/> -->
+	<!-- 以下与实体类的中字段一致 -->
+	<sql id="selectId">
+		player_id,
+		username,
+		user_key,
+		password,
+		active_dt,
+		create_dt
+	</sql>
+	
+	<select id="findPlayerByUserId" resultType="com.lanyuan.entity.PlayerFormMap">
+		select <include refid="selectId"/> from t_player 
+		where player_id in 
+		(select player_id from ly_user_player 
+		where user_id = #{userId})
+	</select>
+
+</mapper>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="DeviceMapper">
+	<!--mybatis ehcache缓存配置 -->
+	<!-- 以下两个<cache>标签二选一,第一个可以输出日志,第二个不输出日志 <cache type="org.mybatis.caches.ehcache.LoggingEhcache" 
+		/> -->
+	<!-- <cache type="org.mybatis.caches.ehcache.EhcacheCache"/> -->
+	<!-- 以下与实体类的中字段一致 -->
+	<sql id="selectId">
+		device_id,
+		devicename,
+		uuidKey,
+		password,
+		position_x,
+		position_y,
+		online,
+		active_dt,
+		create_dt
+	</sql>
+
+	<select id="findDevicePage" resultType="com.lanyuan.entity.DeviceFormMap">
+		SELECT
+		<include refid="selectId" />
+		from t_device
+		where 1 = 1
+		<if test="devicename != null and devicename != ''">
+		and devicename like '%${devicename}%'
+		</if>
+	</select>
+	
+	<!-- 查询用户可操作的设备信息 -->
+	<select id="findUserDevices" resultType="com.lanyuan.entity.DeviceFormMap">
+		SELECT 
+		<include refid="selectId" /> 
+		from t_device 
+		where 1 = 1
+		<if test="roleKey != null and roleKey != '' and roleKey != 'admin'">
+			<if test="uuids != null and uuids != ''">
+			and uuidKey in
+			<foreach collection="uuids" index="index" item="item" open="(" separator="," close=")">
+				#{item,jdbcType=VARCHAR}
+			<!-- #{item} -->       
+        	</foreach>
+        	</if>
+        </if>
+        <if test="devicename != null and devicename != ''">
+		and devicename like '%${devicename}%'
+		</if>
+	</select>
+	<update id="updateByDeviceId">
+		update t_device set devicename=#{devicename,jdbcType=VARCHAR}, password=#{password,jdbcType=VARCHAR} where device_id=#{device_id,jdbcType=INTEGER}
+	</update>
+</mapper>

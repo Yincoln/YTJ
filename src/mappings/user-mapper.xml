@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="UserMapper">
+	<!--mybatis ehcache缓存配置 -->
+	<!-- 以下两个<cache>标签二选一,第一个可以输出日志,第二个不输出日志 <cache type="org.mybatis.caches.ehcache.LoggingEhcache" 
+		/> -->
+	<!-- <cache type="org.mybatis.caches.ehcache.EhcacheCache"/> -->
+	<!-- 以下与实体类的中字段一致 -->
+	<sql id="selectId">
+		id,
+		accountName,
+		name,
+		(SELECT name from ly_role
+		where ly_role.id
+		in (SELECT roleId FROM ly_user_role WHERE
+		userId=ly_user.id) ) roleName,
+		(SELECT roleKey from ly_role
+		where ly_role.id
+		in (SELECT roleId FROM ly_user_role WHERE
+		userId=ly_user.id) ) roleKey,
+		password,
+		description,
+		locked,
+		credentialsSalt,
+		createTime,
+		(select js_str from t_player_extend 
+		where t_player_extend.player_id 
+		in (select player_id from ly_user_player where 
+		user_id=ly_user.id)) device
+	</sql>
+
+	<select id="findUserPage" resultType="com.lanyuan.entity.UserFormMap">
+		SELECT
+		<include refid="selectId" />
+		from ly_user
+		where 1 = 1
+		<if test="accountName != null and accountName != ''">
+		and accountName like '%${accountName}%'
+		</if>
+	</select>
+	<select id="seletUser" resultType="com.lanyuan.entity.UserFormMap">
+	select 
+	<include refid="selectId"/>
+	 from ly_user
+		where ly_user.id
+		in (SELECT userId FROM ly_user_role WHERE
+		roleId=#{roleId})
+	</select>
+</mapper>

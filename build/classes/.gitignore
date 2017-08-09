@@ -1,0 +1,10 @@
+/com
+/config.properties
+/ehcache.xml
+/jdbc.properties
+/log4j.properties
+/mappings
+/org
+/spring-application.xml
+/spring-mvc.xml
+/spring-shiro.xml

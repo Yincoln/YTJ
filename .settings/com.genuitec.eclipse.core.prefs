@@ -1,0 +1,3 @@
+eclipse.preferences.version=1
+validator.Checked=WebContent/ace/assets/js/prettify.js,WebContent/js/ligerui-1.2.5/lib/ligerUI/js/plugins/ligerToolBar.js,WebContent/js/commom/lyGrid.js,WebContent/js/jquery/jquery.min-2.1.4.js
+validator.Unchecked=

@@ -1,0 +1,113 @@
+.progress {
+        margin: 0;
+    }
+    .device-panel {
+        min-width: 850px;
+    }
+    .block {
+        position: relative;
+        width: 20%;
+        float: left;
+        border-top:none;
+        
+    }
+    .block>.block-wrapper {
+        border-left: 1px solid #ccc;
+    }
+/*     .block:last-child>.block-wrapper{
+    	border-right: 1px solid #ccc;
+    } */
+    .block:before {
+        display: block;
+        content: "";
+        width: 100%;
+        padding-top: 100%;
+    }
+    .block > .block-wrapper {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        padding: 4px 8px 8px 8px;
+    }
+    .block-name {
+        text-align: center;
+        color: #999;
+    }
+    .block-content-wrapper {
+        height: 100%;
+    }
+    .block-content {
+        position: relative;
+        top: 45%;
+        transform: translateY(-50%);
+    }
+    .block-default .block-content {
+        text-align: center;
+    }
+    .pie-chart {
+        position: relative;
+        line-height: 70px;
+        text-align: center;
+        width: 70px;
+        margin: auto;
+    }
+    .pie-chart > canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+    .widget-weather p {
+        margin: 0;
+    }
+    .widget-humidity > canvas {
+        margin-bottom: -20px;
+        width: 100%;
+        max-width: 100px;
+    }
+    .widget-control {
+        cursor: pointer;
+    }
+    
+    .selectable tr, .device-panel>.panel-heading {
+        cursor: pointer;
+    }
+    #upstream-swf {
+        text-align: center;
+    }
+    
+    
+  /*****
+  ****LED滑动条
+  ***/  
+    .dragdealer {
+  background: #e1e1e1;
+  height: 40px;
+  border-radius: 3px;
+}
+  .dragdealer .red-bar {
+    height: 40px;
+    font-size: 16px;
+    line-height: 40px;
+    border-radius: 3px;
+  }
+
+/* LED slider */
+
+#ledSlider {
+  height: 40px;
+}
+  #ledSlider .handle {
+    height: 40x;
+    line-height: 40px;
+  }
+    #ledSlider .value {
+      padding: 0 0 0 5px;
+      font-size: 30px;
+      font-weight: bold;
+    }
+    
+    
+    
+    
