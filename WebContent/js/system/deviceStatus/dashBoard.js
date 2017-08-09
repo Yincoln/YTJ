@@ -233,19 +233,19 @@ function render_widget() {
 		var widget = $(this);
 		var flag = widget.data('flag');
 		if(0 == flag) //停止
-			widget.html('<a href="javascript:void(0)" class="hvr-float-shadow"><img src="/lanyuan-business-beta-4.1/images/playing.png"  alt="0" width="40px" height="40px"/></a>');
+			widget.html('<a href="javascript:void(0)" class="hvr-float-shadow"><img src="/YTJ/images/playing.png"  alt="0" width="40px" height="40px"/></a>');
 		else if(1 == flag) //正在播放
-			widget.html('<a href="javascript:void(0)" class="hvr-float-shadow"><img src="/lanyuan-business-beta-4.1/images/pause.png"  alt="正在播放" width="40px" height="40px"/></a>');
+			widget.html('<a href="javascript:void(0)" class="hvr-float-shadow"><img src="/YTJ/images/pause.png"  alt="正在播放" width="40px" height="40px"/></a>');
 		else if(2 == flag) //暂停
-			widget.html('<a href="javascript:void(0)" class="hvr-float-shadow"><img src="/lanyuan-business-beta-4.1/images/playing.png"  alt="暂停" width="40px" height="40px"/></a>');
+			widget.html('<a href="javascript:void(0)" class="hvr-float-shadow"><img src="/YTJ/images/playing.png"  alt="暂停" width="40px" height="40px"/></a>');
 	});
 	
 	$('.widget-restart').each(function() {
 		var widget = $(this);
 		if(0 == widget.data('status'))
-			widget.html('<a href="javascript:void(0)" class="hvr-float-shadow"><img src="/lanyuan-business-beta-4.1/images/restart.png"  alt="0" width="40px" height="40px"/></a>');
+			widget.html('<a href="javascript:void(0)" class="hvr-float-shadow"><img src="/YTJ/images/restart.png"  alt="0" width="40px" height="40px"/></a>');
 		else
-			widget.html('<a href="javascript:void(0)" class="hvr-float-shadow"><img src="/lanyuan-business-beta-4.1/images/stop.png"  alt="1" width="40px" height="40px"/></a>');
+			widget.html('<a href="javascript:void(0)" class="hvr-float-shadow"><img src="/YTJ/images/stop.png"  alt="1" width="40px" height="40px"/></a>');
 	});
 	
 	/*
