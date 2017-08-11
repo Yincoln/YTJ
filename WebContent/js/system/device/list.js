@@ -46,7 +46,7 @@ $(function() {
 				return new Date(data).format("yyyy-MM-dd hh:mm:ss");
 			}
 		} ],
-		data:{FormMap:"DeviceFormMap",mapper_id:"DeviceMapper.findUserDevices"},
+		data:{FormMap:"DeviceFormMap",mapper_id:"DeviceMapper.findUserDevices",resId:$("#resId").text()},
 		jsonUrl : rootPath + '/system/device/findByPage1.shtml',
 		checkbox : true,
 		checkValue : "device_id"

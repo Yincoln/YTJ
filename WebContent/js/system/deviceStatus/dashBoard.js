@@ -117,11 +117,11 @@ function Control(uuid) {
 					}
 					//控制成功后，修改该控件状态
 					widget.data('flag',flag);
-					layer.msg('成功操作了1台设备',{time:2000});
+					//layer.msg('成功操作了1台设备',{time:2000});
 					widget.removeClass('selected');
 				}else{
-					var index = layer.msg('操作失败',{time:2000});
-					layer.close(index);
+					//var index = layer.msg('操作失败',{time:2000});
+					//layer.close(index);
 					widget.removeClass('selected');
 				}
 			}

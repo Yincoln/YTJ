@@ -1,7 +1,6 @@
 package com.lanyuan.controller.system;
 
 import java.util.List;
-
 import javax.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
@@ -15,6 +14,7 @@ import com.lanyuan.annotation.SystemLog;
 import com.lanyuan.controller.index.BaseController;
 import com.lanyuan.entity.DeviceFormMap;
 import com.lanyuan.entity.PlayerFormMap;
+import com.lanyuan.entity.ResFormMap;
 import com.lanyuan.exception.SystemException;
 import com.lanyuan.plugin.PageView;
 import com.lanyuan.service.DeviceService;
@@ -41,6 +41,7 @@ public class DeviceController extends BaseController {
 			DeviceFormMap deviceFormMap = getFormMap(DeviceFormMap.class);
 			String uuidkey = deviceFormMap.getStr("prefix") + deviceFormMap.getStr("suffix");
 			deviceFormMap.put("uuidKey",uuidkey);
+			deviceFormMap.put("device_type",deviceFormMap.getStr("prefix"));
 			String date = Common.fromDateH();
 			deviceFormMap.put("actice_dt", date);
 			deviceFormMap.put("create_dt", date);		
@@ -66,11 +67,15 @@ public class DeviceController extends BaseController {
 	
 	@RequestMapping("findByPage1")
 	@ResponseBody
-	public PageView findByPage1() throws Exception{
+	public PageView findByPage1(Model model) throws Exception{
 		DeviceFormMap formMap = getFormMap(DeviceFormMap.class);
+		int resId = Integer.parseInt(formMap.getStr("resId"));
+		//由resId得到设备类型
+		formMap.put("deviceType", getDeviceTypeByResId(resId));
 		PageView pageView = getPageView(formMap);
 		formMap.put("paging", pageView);
 		pageView.setRecords(deviceService.findByPage1(formMap));
+		model.addAttribute("deviceType", formMap.getStr("deviceType"));
 		return pageView;
 	}
 	
@@ -130,5 +135,48 @@ public class DeviceController extends BaseController {
 		model.addAttribute("uuidKey",deviceFormMap.get("uuidKey"));
 		model.addAttribute("password",deviceFormMap.get("password"));
 		return Common.BACKGROUND_PATH+"/system/device/QRcode";
+	}
+	
+
+	/**
+	 * 根据页面id获取页面名称
+	 * 
+	 * @param resId
+	 * @return contentType
+	 * @throws Exception
+	 */
+	public String getDeviceTypeByResId(int resId) throws Exception {
+		ResFormMap resFormMap = new ResFormMap();
+		resFormMap.put("id", resId);
+		resFormMap = deviceService.findById(resFormMap);
+		String resKey = resFormMap.getStr("resKey");
+		// 由页面名称确定查找文件的类型
+		String deviceType = null;
+		
+		switch (resKey.substring(0, 4)) {
+		case "AIOM":
+			deviceType = "AIOM";
+			break;
+		case "BIOC":
+			deviceType = "BIOC";
+			break;
+		default:
+			deviceType = "AIOM";
+			break;
+		}
+		return deviceType;
+	}
+	
+	/**
+	 * 新增生命机设备
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("addBIOC")
+	public String addBIOC(Model model) throws Exception{
+		DeviceFormMap formMap = findHasHMap(DeviceFormMap.class);
+		model.addAllAttributes(formMap);
+		return Common.BACKGROUND_PATH + findUrl()[0] + "/addBOIC";
 	}
 }

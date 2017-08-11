@@ -67,12 +67,13 @@ public class DeviceExtendController extends BaseController {
 	@RequestMapping("control")
 	public String control() throws Exception {
 		DeviceExtendFormMap formMap = getFormMap(DeviceExtendFormMap.class);
-		int userId = Integer.parseInt(Common.findUserSessionId());
+		int userId = Integer.parseInt(Common.findPlayerSessionId());
+		String accountName = Common.findUserSessionAccountName();
 		//用户登录获取ip,port
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("pro", 10001);
-		map.put("passwd", "a");
-		map.put("key","a");
+		map.put("passwd", accountName);
+		map.put("key",accountName);//暂时处理成密码和用户关键名相同
 		String data = JsonUtils.mapToJson(map);
 		
 		//创建套接字对象

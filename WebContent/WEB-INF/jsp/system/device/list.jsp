@@ -8,6 +8,7 @@
 	src="${pageContext.request.contextPath}/js/system/device/list.js"></script>
 </head>
 <body>
+	<div id="resId" style="display:none;">${resId}</div>
 	<div class="page-content">
 		<div class="m-b-md">
 			<form class="form-inline" id="searchForm"

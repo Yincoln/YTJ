@@ -100,12 +100,12 @@ public class ClientText {
 		for (String key : map.keySet()) {
 	        System.out.println("key= " + key + " and value= " + map.get(key));
 	    }
-		/*
+		
 		int pid=Integer.parseInt(map.get("pid").toString());
 		String url=(String)map.get("url");
 		String[] ipPort = url.split(":");
-		myclient = new ClientText(ipPort[0],Integer.parseInt(ipPort[1]));*/
-		myclient = new ClientText("112.74.216.117",9101);
+		myclient = new ClientText(ipPort[0],Integer.parseInt(ipPort[1]));
+		//myclient = new ClientText("112.74.216.117",9100);
 		System.out.println("Socket: "+myclient.client_s);
 		String data1 = "{\"pro\":10002,\"pid\":12}";
 		myclient.send(data1);
@@ -135,7 +135,7 @@ public class ClientText {
 		System.out.println("----------socket未关闭-----------");
 		//myclient = new ClientText(ipPort[0],Integer.parseInt(ipPort[1]));
 		System.out.println("Socket: "+myclient.client_s);
-		String data3 = "{\"uuidkey\":\"AIOM12345678\",\"list\":[{\"statusname\":\"LED1_Status\",\"status\":0,\"flag\":1}],\"pid\":12,\"pro\":10004,\"did\":6}";
+		String data3 = "{\"uuidkey\":\"AIOM12345678\",\"list\":[{\"statusname\":\"LED1_Status\",\"status\":1,\"flag\":1}],\"pid\":12,\"pro\":10004,\"did\":6}";
 		myclient.send(data3);
 		Map<String,Object> map3 = myclient.read();
 		if(map3 != null){

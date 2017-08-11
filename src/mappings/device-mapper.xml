@@ -11,6 +11,7 @@
 		device_id,
 		devicename,
 		uuidKey,
+		device_type,
 		password,
 		position_x,
 		position_y,
@@ -34,7 +35,10 @@
 		SELECT 
 		<include refid="selectId" /> 
 		from t_device 
-		where 1 = 1
+		where 1 = 1 
+		<if test="deviceType != null and deviceType != ''">
+		and device_type=#{deviceType,jdbcType=VARCHAR}
+		</if>
 		<if test="roleKey != null and roleKey != '' and roleKey != 'admin'">
 			<if test="uuids != null and uuids != ''">
 			and uuidKey in
@@ -47,8 +51,14 @@
         <if test="devicename != null and devicename != ''">
 		and devicename like '%${devicename}%'
 		</if>
+		<if test="uuidKey != null and uuidKey != ''">
+		and uuidKey=#{uuidKey,jdbcType=VARCHAR}
+		</if>
 	</select>
 	<update id="updateByDeviceId">
 		update t_device set devicename=#{devicename,jdbcType=VARCHAR}, password=#{password,jdbcType=VARCHAR} where device_id=#{device_id,jdbcType=INTEGER}
 	</update>
+	<select id="findByUUID" resultType="com.lanyuan.entity.DeviceFormMap">
+		select * from t_device where uuidKey=#{uuidKey,jdbcType=VARCHAR}
+	</select>
 </mapper>

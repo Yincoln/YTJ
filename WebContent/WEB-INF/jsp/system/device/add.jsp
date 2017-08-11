@@ -17,10 +17,8 @@
 				<div class="col-sm-9">
 					<div class="input-group" style="width:100%">
 						<span class="input-group-btn" style="width:40%">
-							<select class="btn btn-info" id="prefix" name="prefix" style="width:90%">  
-               					<option selected="selected">AIOM</option>  
-          						<option>MICRO</option>   
-          					</select>  
+							<input type="text" class="form-control" readonly="readonly" 
+							name="prefix" id="prefix" style="width:90%" value="AIOM"/>
 						</span>
 						<input type="text" class="form-control" name="suffix" id="suffix" style="width:100%"/>
 					</div>
