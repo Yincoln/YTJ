@@ -1,5 +1,8 @@
 package com.lanyuan.controller.system;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -44,35 +47,35 @@ public class MessageLoggingController extends BaseController {
 		MessageLoggingFormMap messageLogging = getFormMap(MessageLoggingFormMap.class);
 		String uuidkey = messageLogging.getStr("uuid");
 		String jsStr = messageLogging.getStr("js_str");
-		messageLogging.put("uuidkey", uuidkey);
-		DeviceFormMap deviceFormMap = new DeviceFormMap();
-		deviceFormMap.put("uuidKey",uuidkey);
-		deviceFormMap.put("mapper_id", "DeviceMapper.findByUUID");
-		// 查找设备是否存在
-		try {
-			deviceFormMap = messageLoggingService.findById(deviceFormMap);
-		} catch (Exception e1) {
-			return "error";
+
+		if(uuidkey.length() != 0 && jsStr.length() != 0) {
+			messageLogging.put("uuidkey", uuidkey);
+			DeviceFormMap deviceFormMap = new DeviceFormMap();
+			deviceFormMap.put("uuidKey",uuidkey);
+			deviceFormMap.put("mapper_id", "DeviceMapper.findByUUID");
+			// 查找设备是否存在
+			try {
+				deviceFormMap = messageLoggingService.findById(deviceFormMap);
+				if(deviceFormMap==null)
+					return "设备不存在";
+				//获取服务器当前时间
+				Date currentTime = new Date();
+				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				//时间戳
+				String timeStamp = formatter.format(currentTime);
+				messageLogging.put("time_stamp", timeStamp);
+				try {
+					messageLoggingService.addEntity(messageLogging);
+				} catch (Exception e) {
+					return "存储失败";
+				}
+			} catch (Exception e1) {
+				return "error";
+			}
+			return "success";
+		}else {
+			return "传入参数错误";
 		}
-		
-		//将jsStr中时间戳取出，存入单独的数据库字段
-		Map<String, Object> map = JsonUtils.parseJSONMap(jsStr);
-		@SuppressWarnings("unchecked")
-		ArrayList<Map<String,Object>> o = (ArrayList<Map<String, Object>>) map.get("list");
-		//时间戳
-		String timeStamp = "";
-		for (Map<String, Object> map2 : o) {
-			String statusname = (String)map2.get("statusname");
-			if(statusname.equals("msgTime"))
-				timeStamp = (String)map2.get("status");
-		}
-		messageLogging.put("time_stamp", timeStamp);
-		try {
-			messageLoggingService.addEntity(messageLogging);
-		} catch (Exception e) {
-			return "存储失败";
-		}
-		return "success";
 	}
 
 	/**
@@ -82,10 +85,24 @@ public class MessageLoggingController extends BaseController {
 	 */
 	@ResponseBody
 	@RequestMapping("getLog")
-	public List<MessageLoggingFormMap> getLog() {
+	public List<Map<String,Object>> getLog() {
 		MessageLoggingFormMap messageLogging = getFormMap(MessageLoggingFormMap.class);	
 		messageLogging.put("mapper_id", "MessageLoggingMapper.findLog");
-		List<MessageLoggingFormMap> list = messageLoggingService.findByAll(messageLogging);	
-		return list;
+		List<MessageLoggingFormMap> list = messageLoggingService.findByAll(messageLogging);
+		//返回的类型
+		List<Map<String,Object>> result = new ArrayList<Map<String,Object>>();
+		
+		for (MessageLoggingFormMap messageLoggingFormMap : list) {
+			//存放js_str，处理类型
+			Map<String,Object> m = new HashMap<String,Object>();
+			//存放js_str和uuidkey
+			Map<String,Object> map = new HashMap<String,Object>();
+			m = JsonUtils.parseJSONMap((String)messageLoggingFormMap.get("js_str"));
+			map.put("time_stamp", messageLoggingFormMap.get("time_stamp").toString());
+			map.put("uuidkey", messageLoggingFormMap.get("uuidkey"));	
+			map.put("js_str", m);
+			result.add(map);
+		}
+		return result;
 	}
 }
