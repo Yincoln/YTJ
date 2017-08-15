@@ -59,6 +59,8 @@
 				/login_files/** = anon
 				/login.shtml = anon
 				/denied.jsp = anon
+				/system/messageLogging/getLog.shtml = anon
+				/system/messageLogging/addEntity.shtml = anon
 			</value>
 		</property>
 	</bean>
