@@ -99,8 +99,8 @@ public class MessageLoggingController extends BaseController {
 			Map<String,Object> map = new HashMap<String,Object>();
 			m = JsonUtils.parseJSONMap((String)messageLoggingFormMap.get("js_str"));
 			map.put("time_stamp", messageLoggingFormMap.get("time_stamp").toString());
-			map.put("uuidkey", messageLoggingFormMap.get("uuidkey"));	
-			map.put("js_str", m);
+			map.put("uuidkey", messageLoggingFormMap.get("uuidkey"));
+			map.putAll(m);
 			result.add(map);
 		}
 		return result;
