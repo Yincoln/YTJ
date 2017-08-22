@@ -53,7 +53,7 @@ public class LssSessionInfoController extends BaseController {
 	}
 	
 	/**
-	 * 由sessionId查找session信息
+	 * 	
 	 * @param sessionId
 	 * @return hls rtmp
 	 * @throws Exception
@@ -70,6 +70,11 @@ public class LssSessionInfoController extends BaseController {
 		return lssSessionInfo;
 	}
 	
+	/**
+	 * 新建直播session
+	 * @return result(success  failed) 
+	 * @throws Exception
+	 */
 	@ResponseBody 
     @RequestMapping("createSession")
     public Map<String,String> createSession() throws Exception {
@@ -138,6 +143,12 @@ public class LssSessionInfoController extends BaseController {
     	}
     }
 	
+	/**
+	 * 
+	 * @param model
+	 * @return 当前用户的直播session选择的界面
+	 * @throws Exception
+	 */
     @RequestMapping("selectSession")
 	public String selectSession(Model model) throws Exception{
     	LssSessionInfo lssSessionInfo = getFormMap(LssSessionInfo.class);
@@ -148,6 +159,12 @@ public class LssSessionInfoController extends BaseController {
     	return Common.BACKGROUND_PATH + findUrl()[0] + "/selectSession";
 	}
     
+    /**
+     * 
+     * @param model
+     * @return 直播推流界面
+     * @throws Exception
+     */
     @RequestMapping("upstream")
 	public String upstream(Model model) throws Exception{
     	LssSessionInfo lssSessionInfo = getFormMap(LssSessionInfo.class);
@@ -162,6 +179,16 @@ public class LssSessionInfoController extends BaseController {
     	return Common.BACKGROUND_PATH + findUrl()[0] + "/upstream";
 	}
     
+    /**
+     * 创建直播推流session
+     * @param client
+     * @param description
+     * @param preset
+     * @param notification
+     * @param securityPolicy
+     * @param recording
+     * @param lsssessioninfo
+     */
 	public static void createPushSession(LssClient client, String description, String preset, String notification,String securityPolicy, String recording,LssSessionInfo lsssessioninfo) {
     	try{
     		CreateSessionResponse resp = client.createSession(description, preset, notification, securityPolicy, recording, null);
